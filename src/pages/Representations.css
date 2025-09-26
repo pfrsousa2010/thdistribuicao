@@ -1,0 +1,218 @@
+/* Representations Page Styles */
+.representations-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Content Section */
+.representations-content {
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Intro Section */
+.representations-intro {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #2c2c2c;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.section-title .highlight {
+  color: #E0A905;
+}
+
+.section-description {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Representations Grid */
+.representations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.representation-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  min-height: 200px;
+}
+
+.representation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.representation-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20vw;
+  height: 20vh;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+  .brand-logo img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+.representation-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 20px;
+}
+
+.brand-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #666;
+  margin: 0;
+  text-align: justify;
+}
+
+.brand-website {
+  display: inline-block;
+  color: #E0A905;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 16px;
+  border: 2px solid #E0A905;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  background: transparent;
+  text-align: center;
+  align-self: center;
+}
+
+.brand-website:hover {
+  background: #E0A905;
+  color: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(224, 169, 5, 0.3);
+}
+
+.brand-products {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.brand-products img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .representation-card {
+    flex-direction: column;
+    gap: 25px;
+    text-align: center;
+    padding: 25px 20px;
+    min-height: auto;
+  }
+
+  .representation-body {
+    order: 2;
+    align-items: center;
+    padding: 0;
+  }
+
+  .brand-products {
+    order: 3;
+    width: auto;
+  }
+
+  .brand-description {
+    font-size: 0.9rem;
+    text-align: justify;
+  }
+
+  .brand-website {
+    align-self: center;
+  }
+
+  .brand-logo img {
+    max-width: 150px;
+    max-height: 80px;
+  }
+
+  .brand-products img {
+    max-width: 150px;
+    max-height: 80px;
+  }
+
+
+}
+
+@media (max-width: 480px) {
+  .representations-content {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .representation-card {
+    padding: 20px 15px;
+    gap: 20px;
+  }
+
+  .brand-logo img {
+    max-width: 120px;
+    max-height: 60px;
+  }
+
+  .brand-products img {
+    max-width: 120px;
+    max-height: 60px;
+  }
+
+
+}
