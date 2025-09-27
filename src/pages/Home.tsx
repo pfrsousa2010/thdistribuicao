@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero';
 import BannerCarousel from '../components/BannerCarousel';
 import './Home.css';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
+  // Scroll para o topo quando a página carrega
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const goToProducts = () => {
+    navigate('/produtos');
+  };
+
   return (
     <div className="home">
       <Hero />
@@ -42,7 +54,7 @@ const Home: React.FC = () => {
           <div className="products-carousel">
             <BannerCarousel />
           </div>
-          <button className="view-products-btn">Ver Produtos</button>
+          <button className="view-products-btn" onClick={goToProducts}>Ver Produtos</button>
         </div>
       </section>
 

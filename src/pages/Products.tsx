@@ -15,6 +15,11 @@ const Products: React.FC = () => {
     fetchData();
   }, []);
 
+  // Scroll para o topo quando a página carrega
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const fetchData = async () => {
     try {
       setLoading(true);

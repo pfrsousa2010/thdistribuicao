@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Representations.css';
 
 const Representations: React.FC = () => {
+  // Scroll para o topo quando a página carrega
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const representations = [
     {
       id: '1',
