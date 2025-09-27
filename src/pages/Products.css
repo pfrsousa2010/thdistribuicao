@@ -13,8 +13,23 @@
 .page-title {
   font-size: 3rem;
   font-weight: 900;
-  margin: 0;
+  margin: 0 0 20px 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.products-info {
+  margin-top: 20px;
+}
+
+.products-info p {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.categories-info {
+  font-size: 0.95rem !important;
+  opacity: 0.8 !important;
 }
 
 .products-content {
@@ -229,6 +244,69 @@
   padding: 60px 20px;
   font-size: 1.2rem;
   color: #666;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #ffd700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.error-message h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #e74c3c;
+}
+
+.error-message p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.retry-button {
+  background: #e74c3c;
+  color: #ffffff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.retry-button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+.debug-info {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+.debug-info small {
+  color: #f0f0f0;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {

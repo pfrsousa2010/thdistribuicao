@@ -19,30 +19,56 @@ const Products: React.FC = () => {
     try {
       setLoading(true);
       
-      // Buscar produtos com relacionamentos
-      const { data: productsData, error: productsError } = await supabase
-        .from('products')
-        .select(`
-          *,
-          category:categories(*)
-        `)
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
-
-      if (productsError) throw productsError;
-
-      // Buscar categorias
+      // Buscar categorias primeiro
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('categories')
         .select('*')
         .order('name');
 
-      if (categoriesError) throw categoriesError;
+      if (categoriesError) {
+        console.error('Erro ao buscar categorias:', categoriesError);
+        throw categoriesError;
+      }
 
-      setProducts(productsData || []);
+      // Buscar produtos com relacionamentos
+      const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select(`
+          *,
+          categories:category_id (
+            id,
+            name
+          )
+        `)
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (productsError) {
+        console.error('Erro ao buscar produtos:', productsError);
+        throw productsError;
+      }
+
+      console.log('Dados carregados:', {
+        categorias: categoriesData?.length || 0,
+        produtos: productsData?.length || 0
+      });
+
+      // Mapear os dados para garantir compatibilidade
+      const mappedProducts = (productsData || []).map(product => ({
+        ...product,
+        category: product.categories ? {
+          id: product.categories.id,
+          name: product.categories.name
+        } : null
+      }));
+
+      setProducts(mappedProducts);
       setCategories(categoriesData || []);
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
+      // Em caso de erro, definir arrays vazios para evitar quebra da interface
+      setProducts([]);
+      setCategories([]);
     } finally {
       setLoading(false);
     }
@@ -69,13 +95,51 @@ const Products: React.FC = () => {
     window.open(url, '_blank');
   };
 
+
+  const retryFetch = () => {
+    fetchData();
+  };
+
   if (loading) {
     return (
       <div className="products-page">
         <div className="products-hero">
           <div className="container">
             <h1 className="page-title">Produtos</h1>
-            <div className="loading">Carregando produtos...</div>
+            <div className="loading">
+              <div className="loading-spinner"></div>
+              <p>Carregando produtos...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Se não há produtos e não está carregando, mostrar mensagem de erro ou info
+  if (products.length === 0 && !loading) {
+    return (
+      <div className="products-page">
+        <div className="products-hero">
+          <div className="container">
+            <h1 className="page-title">Produtos</h1>
+            <div className="error-message">
+              <h3>Nenhum produto encontrado</h3>
+              <p>
+                {categories.length > 0 
+                  ? "Não há produtos ativos cadastrados no momento. Verifique se existem produtos com is_active = true."
+                  : "Não foi possível carregar os dados. Verifique sua conexão com a internet e tente novamente."
+                }
+              </p>
+              <div className="debug-info">
+                <small>
+                  Debug: {categories.length} categorias carregadas
+                </small>
+              </div>
+              <button className="retry-button" onClick={retryFetch}>
+                Tentar novamente
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -87,6 +151,19 @@ const Products: React.FC = () => {
       <div className="products-hero">
         <div className="container">
           <h1 className="page-title">Produtos</h1>
+          <div className="products-info">
+            <p>
+              {products.length > 0 
+                ? `Exibindo ${filteredProducts.length} de ${products.length} produtos ativos`
+                : 'Carregando produtos...'
+              }
+            </p>
+            {categories.length > 0 && (
+              <p className="categories-info">
+                {categories.length} categorias disponíveis
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
