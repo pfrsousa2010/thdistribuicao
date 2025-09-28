@@ -3,6 +3,38 @@ import { supabase } from '../services/supabase';
 import type { Product, Category } from '../types';
 import './Products.css';
 
+// Componente do Carrossel de Banners
+const BannerCarousel: React.FC = () => {
+  const banners = [
+    '/produtos/banners/delco.png',
+    '/produtos/banners/hella.png',
+    '/produtos/banners/kito.png',
+    '/produtos/banners/milwaukee.png'
+  ];
+
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
+  return (
+    <div className="products-hero-carousel">
+      <div className="banner-container">
+        <img 
+          src={banners[currentBanner]} 
+          alt={`Banner ${currentBanner + 1}`}
+          className="banner-image"
+        />
+      </div>
+    </div>
+  );
+};
+
 const Products: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -221,11 +253,7 @@ const Products: React.FC = () => {
   if (loading) {
     return (
       <div className="products-page">
-        <div className="products-hero">
-          <div className="container">
-            <h1 className="page-title">Produtos</h1>
-          </div>
-        </div>
+        <BannerCarousel />
 
         <div className="products-content">
           <div className="container">
@@ -306,11 +334,7 @@ const Products: React.FC = () => {
 
   return (
     <div className="products-page">
-      <div className="products-hero">
-        <div className="container">
-          <h1 className="page-title">Produtos</h1>
-        </div>
-      </div>
+      <BannerCarousel />
 
       <div className="products-content">
         <div className="container">
