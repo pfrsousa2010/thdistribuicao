@@ -48,6 +48,10 @@ const Products: React.FC = () => {
   const [filteredTotal, setFilteredTotal] = useState(0);
   const [filterLoading, setFilterLoading] = useState(false);
   const [hasInitialError, setHasInitialError] = useState(false);
+  const [categorySearchTerm, setCategorySearchTerm] = useState('');
+  const [brandSearchTerm, setBrandSearchTerm] = useState('');
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [showBrandDropdown, setShowBrandDropdown] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -134,7 +138,7 @@ const Products: React.FC = () => {
 
       // Aplicar paginação e ordenação
       const { data: productsData, error: productsError, count: filteredCount } = await query
-        .order('created_at', { ascending: false })
+        .order('name', { ascending: true })
         .range(startIndex, endIndex);
 
       if (productsError) {
@@ -166,13 +170,6 @@ const Products: React.FC = () => {
       setFilteredTotal(filteredCount || 0);
       setCurrentPage(page);
 
-      console.log('Produtos filtrados:', {
-        pagina: page,
-        produtosCarregados: mappedProducts.length,
-        totalFiltrados: filteredCount || 0,
-        totalProdutos: totalProducts
-      });
-
     } catch (error) {
       console.error('Erro ao buscar produtos filtrados:', error);
       if (page === 1) {
@@ -182,7 +179,7 @@ const Products: React.FC = () => {
     } finally {
       setFilterLoading(false);
     }
-  }, [searchTerm, selectedCategory, selectedBrand, itemsPerPage, totalProducts]);
+  }, [searchTerm, selectedCategory, selectedBrand, itemsPerPage]);
 
   // Obter lista única de marcas dos produtos (buscar do banco)
   const [uniqueBrands, setUniqueBrands] = useState<string[]>([]);
@@ -205,6 +202,12 @@ const Products: React.FC = () => {
 
         if (brandsData) {
           const brands = Array.from(new Set(brandsData.map(p => p.brand).filter(Boolean)));
+          brands.sort((a, b) => {
+            // Normalizar strings removendo espaços extras e convertendo para minúsculas para comparação
+            const normalizedA = a.trim().toLowerCase();
+            const normalizedB = b.trim().toLowerCase();
+            return normalizedA.localeCompare(normalizedB, 'pt-BR');
+          });
           setUniqueBrands(brands);
         }
       } catch (error) {
@@ -224,6 +227,22 @@ const Products: React.FC = () => {
 
     return () => clearTimeout(timeoutId);
   }, [fetchProductsWithFilters]);
+
+  // Fechar dropdowns quando clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.custom-select')) {
+        setShowCategoryDropdown(false);
+        setShowBrandDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleProductInterest = (product: Product) => {
     const message = `Olá! Tenho interesse no produto: ${product.name}${product.part_number ? ` (${product.part_number})` : ''}`;
@@ -245,6 +264,28 @@ const Products: React.FC = () => {
 
   const handleClearSearch = () => {
     setSearchTerm('');
+  };
+
+  // Filtrar categorias baseado no termo de busca
+  const filteredCategories = categories.filter(category =>
+    category.name.toLowerCase().includes(categorySearchTerm.toLowerCase())
+  );
+
+  // Filtrar marcas baseado no termo de busca
+  const filteredBrands = uniqueBrands.filter(brand =>
+    brand.toLowerCase().includes(brandSearchTerm.toLowerCase())
+  );
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setShowCategoryDropdown(false);
+    setCategorySearchTerm('');
+  };
+
+  const handleBrandSelect = (brand: string) => {
+    setSelectedBrand(brand);
+    setShowBrandDropdown(false);
+    setBrandSearchTerm('');
   };
 
   const hasMoreProducts = displayedProducts.length < filteredTotal;
@@ -316,7 +357,7 @@ const Products: React.FC = () => {
               </div>
             </div>
 
-            <div className="products-list">
+            <div className="loading-container">
               <div className="loading-inline">
                 <img 
                   src="/produtos/logo-th-loading.png" 
@@ -367,36 +408,96 @@ const Products: React.FC = () => {
 
             <div className="category-filter">
               <label htmlFor="category">Filtrar por categoria</label>
-              <select
-                id="category"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="category-select"
-              >
-                <option value="">Selecionar categoria</option>
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+              <div className="custom-select">
+                <input
+                  type="text"
+                  placeholder="Selecionar categoria"
+                  value={categorySearchTerm || (selectedCategory ? categories.find(c => c.id === selectedCategory)?.name || '' : '')}
+                  onChange={(e) => {
+                    setCategorySearchTerm(e.target.value);
+                    setShowCategoryDropdown(true);
+                  }}
+                  onFocus={() => setShowCategoryDropdown(true)}
+                  className="category-select"
+                />
+                {showCategoryDropdown && (
+                  <div className="custom-dropdown">
+                    <div className="dropdown-search">
+                      <input
+                        type="text"
+                        placeholder="Buscar categoria..."
+                        value={categorySearchTerm}
+                        onChange={(e) => setCategorySearchTerm(e.target.value)}
+                        className="dropdown-search-input"
+                      />
+                    </div>
+                    <div className="dropdown-options">
+                      <div
+                        className="dropdown-option"
+                        onClick={() => handleCategorySelect('')}
+                      >
+                        Selecionar categoria
+                      </div>
+                      {filteredCategories.map(category => (
+                        <div
+                          key={category.id}
+                          className="dropdown-option"
+                          onClick={() => handleCategorySelect(category.id)}
+                        >
+                          {category.name}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="brand-filter">
               <label htmlFor="brand">Filtrar por marca</label>
-              <select
-                id="brand"
-                value={selectedBrand}
-                onChange={(e) => setSelectedBrand(e.target.value)}
-                className="brand-select"
-              >
-                <option value="">Selecionar marca</option>
-                {uniqueBrands.map(brand => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-              </select>
+              <div className="custom-select">
+                <input
+                  type="text"
+                  placeholder="Selecionar marca"
+                  value={brandSearchTerm || selectedBrand}
+                  onChange={(e) => {
+                    setBrandSearchTerm(e.target.value);
+                    setShowBrandDropdown(true);
+                  }}
+                  onFocus={() => setShowBrandDropdown(true)}
+                  className="brand-select"
+                />
+                {showBrandDropdown && (
+                  <div className="custom-dropdown">
+                    <div className="dropdown-search">
+                      <input
+                        type="text"
+                        placeholder="Buscar marca..."
+                        value={brandSearchTerm}
+                        onChange={(e) => setBrandSearchTerm(e.target.value)}
+                        className="dropdown-search-input"
+                      />
+                    </div>
+                    <div className="dropdown-options">
+                      <div
+                        className="dropdown-option"
+                        onClick={() => handleBrandSelect('')}
+                      >
+                        Selecionar marca
+                      </div>
+                      {filteredBrands.map(brand => (
+                        <div
+                          key={brand}
+                          className="dropdown-option"
+                          onClick={() => handleBrandSelect(brand)}
+                        >
+                          {brand}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="clear-filters">
@@ -426,22 +527,24 @@ const Products: React.FC = () => {
                 <p>Volte em alguns minutos.</p>
               </div>
             ) : displayedProducts.length === 0 ? (
-              <div className="no-products">
-                <h3>Nenhum produto encontrado</h3>
-                <p>
-                  {hasActiveFilters 
-                    ? "Não encontramos produtos com os filtros aplicados. Tente limpar os filtros ou ajustar sua busca."
-                    : "Não há produtos disponíveis no momento."
-                  }
-                </p>
-                {hasActiveFilters && (
-                  <button 
-                    className="clear-filters-suggestion-btn"
-                    onClick={handleClearFilters}
-                  >
-                    Limpar filtros
-                  </button>
-                )}
+              <div className="no-products-container">
+                <div className="no-products">
+                  <h3>Nenhum produto encontrado</h3>
+                  <p>
+                    {hasActiveFilters 
+                      ? "Não encontramos produtos com os filtros aplicados. Tente limpar os filtros ou ajustar sua busca."
+                      : "Não há produtos disponíveis no momento."
+                    }
+                  </p>
+                  {hasActiveFilters && (
+                    <button 
+                      className="clear-filters-suggestion-btn"
+                      onClick={handleClearFilters}
+                    >
+                      Limpar filtros
+                    </button>
+                  )}
+                </div>
               </div>
             ) : (
               displayedProducts.map(product => (
