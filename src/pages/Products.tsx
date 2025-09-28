@@ -245,7 +245,7 @@ const Products: React.FC = () => {
   }, []);
 
   const handleProductInterest = (product: Product) => {
-    const message = `Olá! Tenho interesse no produto: ${product.name}${product.part_number ? ` (${product.part_number})` : ''}`;
+    const message = `Olá! Vi no site e tenho interesse no produto: ${product.name}${product.part_number ? ` (${product.part_number})` : ''}`;
     const phoneNumber = '5594992676134';
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
