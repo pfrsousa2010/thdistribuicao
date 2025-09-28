@@ -25,10 +25,6 @@ const BannerCarousel: React.FC = () => {
     return () => clearInterval(timer);
   }, [banners.length]);
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
   const goToPrevious = () => {
     setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
   };
