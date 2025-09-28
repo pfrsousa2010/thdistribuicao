@@ -15,6 +15,7 @@ const Products: React.FC = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [filteredTotal, setFilteredTotal] = useState(0);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [hasInitialError, setHasInitialError] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -61,6 +62,7 @@ const Products: React.FC = () => {
       setCategories([]);
       setTotalProducts(0);
       setDisplayedProducts([]);
+      setHasInitialError(true);
     } finally {
       setLoading(false);
     }
@@ -216,50 +218,85 @@ const Products: React.FC = () => {
   const hasMoreProducts = displayedProducts.length < filteredTotal;
   const hasActiveFilters = searchTerm || selectedCategory || selectedBrand;
 
-
-  const retryFetch = () => {
-    fetchData();
-  };
-
   if (loading) {
     return (
       <div className="products-page">
         <div className="products-hero">
           <div className="container">
             <h1 className="page-title">Produtos</h1>
-            <div className="loading">
-              <div className="loading-spinner"></div>
-              <p>Carregando produtos...</p>
-            </div>
           </div>
         </div>
-      </div>
-    );
-  }
 
-  // Se não há produtos e não está carregando, mostrar mensagem de erro ou info
-  if (displayedProducts.length === 0 && !loading && !filterLoading) {
-    return (
-      <div className="products-page">
-        <div className="products-hero">
+        <div className="products-content">
           <div className="container">
-            <h1 className="page-title">Produtos</h1>
-            <div className="error-message">
-              <h3>Nenhum produto encontrado</h3>
-              <p>
-                {categories.length > 0 
-                  ? "Não há produtos ativos cadastrados no momento. Verifique se existem produtos com is_active = true."
-                  : "Não foi possível carregar os dados. Verifique sua conexão com a internet e tente novamente."
-                }
-              </p>
-              <div className="debug-info">
-                <small>
-                  Debug: {categories.length} categorias carregadas
-                </small>
+            <div className="filters-section">
+              <div className="search-filter">
+                <label htmlFor="search">Buscar produto</label>
+                <div className="search-input-wrapper">
+                  <input
+                    id="search"
+                    type="text"
+                    placeholder="Digite o nome do produto"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                    disabled
+                  />
+                </div>
               </div>
-              <button className="retry-button" onClick={retryFetch}>
-                Tentar novamente
-              </button>
+
+              <div className="category-filter">
+                <label htmlFor="category">Filtrar por categoria</label>
+                <select
+                  id="category"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="category-select"
+                  disabled
+                >
+                  <option value="">Selecionar categoria</option>
+                </select>
+              </div>
+
+              <div className="brand-filter">
+                <label htmlFor="brand">Filtrar por marca</label>
+                <select
+                  id="brand"
+                  value={selectedBrand}
+                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  className="brand-select"
+                  disabled
+                >
+                  <option value="">Selecionar marca</option>
+                </select>
+              </div>
+
+              <div className="clear-filters">
+                <button 
+                  className="clear-filters-btn"
+                  onClick={handleClearFilters}
+                  disabled={true}
+                >
+                  Limpar filtros
+                </button>
+              </div>
+
+              <div className="products-count">
+                <p className="count-text">
+                  Carregando produtos...
+                </p>
+              </div>
+            </div>
+
+            <div className="products-list">
+              <div className="loading-inline">
+                <img 
+                  src="/produtos/logo-th-loading.png" 
+                  alt="Carregando..." 
+                  className="loading-logo"
+                />
+                <p>Carregando produtos...</p>
+              </div>
             </div>
           </div>
         </div>
@@ -359,15 +396,28 @@ const Products: React.FC = () => {
           </div>
 
           <div className="products-list">
-            {filterLoading && displayedProducts.length === 0 ? (
-              <div className="loading">
-                <div className="loading-spinner"></div>
-                <p>Carregando produtos...</p>
+            {hasInitialError ? (
+              <div className="system-error">
+                <h3>Estamos com problemas para carregar os produtos</h3>
+                <p>Volte em alguns minutos.</p>
               </div>
             ) : displayedProducts.length === 0 ? (
               <div className="no-products">
                 <h3>Nenhum produto encontrado</h3>
-                <p>Tente ajustar os filtros de busca</p>
+                <p>
+                  {hasActiveFilters 
+                    ? "Não encontramos produtos com os filtros aplicados. Tente limpar os filtros ou ajustar sua busca."
+                    : "Não há produtos disponíveis no momento."
+                  }
+                </p>
+                {hasActiveFilters && (
+                  <button 
+                    className="clear-filters-suggestion-btn"
+                    onClick={handleClearFilters}
+                  >
+                    Limpar filtros
+                  </button>
+                )}
               </div>
             ) : (
               displayedProducts.map(product => (
