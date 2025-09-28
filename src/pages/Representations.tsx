@@ -50,7 +50,6 @@ const Representations: React.FC = () => {
     }
   ];
 
-
   return (
     <div className="representations-page">
       <div className="representations-content">

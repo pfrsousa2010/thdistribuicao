@@ -144,6 +144,30 @@
 }
 
 /* Responsive Design */
+
+/* Tablet Styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .representation-header {
+    width: 25vw;
+    height: 25vh;
+  }
+
+  .brand-logo img {
+    max-width: 200px;
+    max-height: 120px;
+  }
+
+  .brand-products {
+    width: 250px;
+  }
+
+  .brand-products img {
+    max-width: 200px;
+    max-height: 120px;
+  }
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .section-title {
     font-size: 2.2rem;
@@ -178,16 +202,14 @@
   }
 
   .brand-logo img {
-    max-width: 150px;
-    max-height: 80px;
+    max-width: 70vw;
+    max-height: 70vh;
   }
 
   .brand-products img {
-    max-width: 150px;
-    max-height: 80px;
+    max-width: 50vw;
+    max-height: 50vh;
   }
-
-
 }
 
 @media (max-width: 480px) {
@@ -205,14 +227,12 @@
   }
 
   .brand-logo img {
-    max-width: 120px;
-    max-height: 60px;
+    max-width: 70vw;
+    max-height: 70vh;
   }
 
   .brand-products img {
-    max-width: 120px;
-    max-height: 60px;
+    max-width: 50vw;
+    max-height: 50vh;
   }
-
-
 }
