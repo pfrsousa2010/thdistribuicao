@@ -30,7 +30,7 @@ const Header: React.FC = () => {
         {/* Logo/Brand */}
         <div className="header-brand">
           <Link to="/" className="brand-link">
-            <img src="/logo-th.png" alt="TH Distribuição & Representação" className="header-logo" />
+            <img src="\produtos\logo-th-loading.png" alt="TH Distribuição & Representação" className="header-logo" />
           </Link>
         </div>
 
