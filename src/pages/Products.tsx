@@ -121,8 +121,12 @@ const Products: React.FC = () => {
         // Primeira página: substituir produtos
         setDisplayedProducts(mappedProducts);
       } else {
-        // Páginas subsequentes: acumular produtos
-        setDisplayedProducts(prev => [...prev, ...mappedProducts]);
+        // Páginas subsequentes: acumular produtos evitando duplicatas
+        setDisplayedProducts(prev => {
+          const existingIds = new Set(prev.map(p => p.id));
+          const newProducts = mappedProducts.filter(p => !existingIds.has(p.id));
+          return [...prev, ...newProducts];
+        });
       }
       
       setFilteredTotal(filteredCount || 0);
