@@ -1,10 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Hero.css';
 
 const Hero: React.FC = () => {
-  const navigate = useNavigate();
-
   const scrollToContact = () => {
     const contactSection = document.getElementById('contato');
     if (contactSection) {
@@ -12,8 +9,8 @@ const Hero: React.FC = () => {
     }
   };
 
-  const goToProducts = () => {
-    navigate('/produtos');
+  const goToPortfolio = () => {
+    window.open('https://drive.google.com/file/d/1kPWysvhWZwTElV4BGINx4BNCNSAz2fPc/view?usp=sharing', '_blank');
   };
   return (
     <section className="hero">
@@ -38,7 +35,7 @@ const Hero: React.FC = () => {
           </p>
           <div className="hero-cta">
             <button className="hero-button primary" onClick={scrollToContact}>Fale conosco</button>
-            <button className="hero-button secondary" onClick={goToProducts}>Ver produtos</button>
+            <button className="hero-button secondary" onClick={goToPortfolio}>Ver portfólio</button>
           </div>
         </div>
       </div>
