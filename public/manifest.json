@@ -1,0 +1,23 @@
+{
+  "name": "TH Distribuição & Representação",
+  "short_name": "TH Distribuição",
+  "description": "Especializada em peças automotivas, ferramentas e equipamentos industriais em Parauapebas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    {
+      "src": "/produtos/logo-th-loading.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/produtos/logo-th-loading.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
