@@ -422,15 +422,6 @@ const Products: React.FC = () => {
                 />
                 {showCategoryDropdown && (
                   <div className="custom-dropdown">
-                    <div className="dropdown-search">
-                      <input
-                        type="text"
-                        placeholder="Buscar categoria..."
-                        value={categorySearchTerm}
-                        onChange={(e) => setCategorySearchTerm(e.target.value)}
-                        className="dropdown-search-input"
-                      />
-                    </div>
                     <div className="dropdown-options">
                       <div
                         className="dropdown-option"
@@ -469,15 +460,6 @@ const Products: React.FC = () => {
                 />
                 {showBrandDropdown && (
                   <div className="custom-dropdown">
-                    <div className="dropdown-search">
-                      <input
-                        type="text"
-                        placeholder="Buscar marca..."
-                        value={brandSearchTerm}
-                        onChange={(e) => setBrandSearchTerm(e.target.value)}
-                        className="dropdown-search-input"
-                      />
-                    </div>
                     <div className="dropdown-options">
                       <div
                         className="dropdown-option"
