@@ -110,14 +110,16 @@
   background: linear-gradient(135deg, #E0A905 0%, #f4c430 100%);
   color: #1a1a1a;
   border: none;
-  padding: 15px 30px;
-  border-radius: 25px;
-  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 15px;
+  font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: block;
+  display: inline-block;
   margin: 40px auto 0;
+  width: auto !important;
+  max-width: none !important;
 }
 
 .view-products-btn:hover {
