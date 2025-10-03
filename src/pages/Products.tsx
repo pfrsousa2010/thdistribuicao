@@ -44,8 +44,6 @@ const Products: React.FC = () => {
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [filteredTotal, setFilteredTotal] = useState(0);
   const [filterLoading, setFilterLoading] = useState(false);
   const [hasInitialError, setHasInitialError] = useState(false);
   const [categorySearchTerm, setCategorySearchTerm] = useState('');
@@ -77,26 +75,13 @@ const Products: React.FC = () => {
         throw categoriesError;
       }
 
-      // Buscar total de produtos ativos
-      const { count: totalCount, error: countError } = await supabase
-        .from('products')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_active', true);
-
-      if (countError) {
-        console.error('Erro ao contar produtos:', countError);
-        throw countError;
-      }
-
       setCategories(categoriesData || []);
-      setTotalProducts(totalCount || 0);
 
       // Buscar produtos iniciais (primeira página)
       await fetchProductsWithFilters();
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
       setCategories([]);
-      setTotalProducts(0);
       setDisplayedProducts([]);
       setHasInitialError(true);
     } finally {
@@ -120,7 +105,7 @@ const Products: React.FC = () => {
             id,
             name
           )
-        `, { count: 'exact' })
+        `)
         .eq('is_active', true);
 
       // Aplicar filtros
@@ -137,7 +122,7 @@ const Products: React.FC = () => {
       }
 
       // Aplicar paginação e ordenação
-      const { data: productsData, error: productsError, count: filteredCount } = await query
+      const { data: productsData, error: productsError } = await query
         .order('name', { ascending: true })
         .range(startIndex, endIndex);
 
@@ -167,7 +152,6 @@ const Products: React.FC = () => {
         });
       }
       
-      setFilteredTotal(filteredCount || 0);
       setCurrentPage(page);
 
     } catch (error) {
@@ -175,7 +159,6 @@ const Products: React.FC = () => {
       if (page === 1) {
         setDisplayedProducts([]);
       }
-      setFilteredTotal(0);
     } finally {
       setFilterLoading(false);
     }
@@ -288,76 +271,13 @@ const Products: React.FC = () => {
     setBrandSearchTerm('');
   };
 
-  const hasMoreProducts = displayedProducts.length < filteredTotal;
+  const hasMoreProducts = displayedProducts.length > 0 && displayedProducts.length % itemsPerPage === 0;
   const hasActiveFilters = searchTerm || selectedCategory || selectedBrand;
 
   if (loading) {
     return (
       <div className="products-page">
-        <BannerCarousel />
-
-        <div className="products-content">
-          <div className="container">
-            <div className="filters-section">
-              <div className="search-filter">
-                <label htmlFor="search">Buscar produto</label>
-                <div className="search-input-wrapper">
-                  <input
-                    id="search"
-                    type="text"
-                    placeholder="Digite o nome do produto"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-input"
-                    disabled
-                  />
-                </div>
-              </div>
-
-              <div className="category-filter">
-                <label htmlFor="category">Filtrar por categoria</label>
-                <select
-                  id="category"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="category-select"
-                  disabled
-                >
-                  <option value="">Selecionar categoria</option>
-                </select>
-              </div>
-
-              <div className="brand-filter">
-                <label htmlFor="brand">Filtrar por marca</label>
-                <select
-                  id="brand"
-                  value={selectedBrand}
-                  onChange={(e) => setSelectedBrand(e.target.value)}
-                  className="brand-select"
-                  disabled
-                >
-                  <option value="">Selecionar marca</option>
-                </select>
-              </div>
-
-              <div className="clear-filters">
-                <button 
-                  className="clear-filters-btn"
-                  onClick={handleClearFilters}
-                  disabled={true}
-                >
-                  Limpar filtros
-                </button>
-              </div>
-
-              <div className="products-count">
-                <p className="count-text">
-                  Carregando produtos...
-                </p>
-              </div>
-            </div>
-
-            <div className="loading-container">
+        <div className="loading-container">
               <div className="loading-inline">
                 <img 
                   src="/produtos/logo-th-loading.png" 
@@ -367,8 +287,6 @@ const Products: React.FC = () => {
                 <p>Carregando produtos...</p>
               </div>
             </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -492,14 +410,6 @@ const Products: React.FC = () => {
               </button>
             </div>
 
-            <div className="products-count">
-              <p className="count-text">
-                {totalProducts > 0 
-                  ? `Mostrando ${displayedProducts.length} produtos na tela • ${filteredTotal.toLocaleString('pt-BR')} produtos encontrados • Total: ${totalProducts.toLocaleString('pt-BR')} produtos`
-                  : 'Carregando produtos...'
-                }
-              </p>
-            </div>
           </div>
 
           <div className="products-list">
@@ -579,7 +489,7 @@ const Products: React.FC = () => {
                 onClick={handleLoadMore}
                 disabled={filterLoading}
               >
-                {filterLoading ? 'Carregando...' : `Carregar mais produtos (${filteredTotal - displayedProducts.length} restantes)`}
+                {filterLoading ? 'Carregando...' : 'Carregar mais produtos'}
               </button>
             </div>
           )}
