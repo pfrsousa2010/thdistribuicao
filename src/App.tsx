@@ -2,15 +2,22 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import UnderConstruction from './components/UnderConstruction';
 import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
 import Representations from './pages/Representations';
+import { SITE_CONFIG } from './config/site-config';
 import './App.css';
 
 function AppContent() {
   const location = useLocation();
   const isProductsPage = location.pathname === '/produtos';
+
+  // Se o site está em construção, mostra apenas a página de construção
+  if (SITE_CONFIG.UNDER_CONSTRUCTION) {
+    return <UnderConstruction />;
+  }
 
   return (
     <div className="App">
