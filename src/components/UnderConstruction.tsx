@@ -1,5 +1,4 @@
 import './UnderConstruction.css';
-import logoTh from '../../public/logo-th.png';
 import { SITE_CONFIG } from '../config/site-config';
 
 const UnderConstruction = () => {
@@ -7,7 +6,7 @@ const UnderConstruction = () => {
     <div className="under-construction">
       <div className="under-construction-content">
         <img 
-          src={logoTh} 
+          src="/logo-th.png" 
           alt="TH Distribuição Logo" 
           className="logo"
         />
