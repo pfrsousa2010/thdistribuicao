@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   // Flag para controlar se o site está em construção
   // true = mostra página em construção
   // false = mostra o site completo
-  UNDER_CONSTRUCTION: true,
+  UNDER_CONSTRUCTION: false,
   
   // Informações de contato para a página em construção
   CONTACT_INFO: {
