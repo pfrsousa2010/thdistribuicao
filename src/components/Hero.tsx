@@ -41,21 +41,21 @@ const Hero: React.FC = () => {
       </div>
       
       <div className="hero-stats">
-        <div className="stat-item">
-          <span className="stat-number">+ de 15</span>
-          <span className="stat-label">Anos de experiência</span>
+        <div className="hero-stat-item">
+          <span className="hero-stat-number">+ de 15</span>
+          <span className="hero-stat-label">Anos de experiência</span>
         </div>
-        <div className="stat-item">
-          <span className="stat-number">100%</span>
-          <span className="stat-label">Compra segura</span>
+        <div className="hero-stat-item">
+          <span className="hero-stat-number">100%</span>
+          <span className="hero-stat-label">Compra segura</span>
         </div>
-        <div className="stat-item">
-          <span className="stat-number">+ de 50</span>
-          <span className="stat-label">Parceiros comerciais</span>
+        <div className="hero-stat-item">
+          <span className="hero-stat-number">+ de 50</span>
+          <span className="hero-stat-label">Parceiros comerciais</span>
         </div>
-        <div className="stat-item">
-          <span className="stat-number">Excelência</span>
-          <span className="stat-label">Atendimento especializado</span>
+        <div className="hero-stat-item">
+          <span className="hero-stat-number">Excelência</span>
+          <span className="hero-stat-label">Atendimento especializado</span>
         </div>
       </div>
     </section>

@@ -160,20 +160,20 @@
   margin-top: auto;
 }
 
-.stat-item {
+.hero-stat-item {
   text-align: center;
   color: #ffffff;
 }
 
-.stat-number {
+.hero-stat-number {
   display: block;
   font-size: 2rem;
   font-weight: 900;
-  color: #E0A905;
+  color: #3f3e3e;
   margin-bottom: 5px;
 }
 
-.stat-label {
+.hero-stat-label {
   font-size: 0.9rem;
   opacity: 0.8;
   text-transform: uppercase;
@@ -219,7 +219,7 @@
     padding: 20px;
   }
 
-  .stat-item {
+  .hero-stat-item {
     padding: 10px 0;
   }
 }
