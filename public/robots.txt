@@ -1,8 +1,19 @@
 User-agent: *
 Allow: /
 
+# Permitir indexação de imagens e recursos importantes
+Allow: /produtos/
+Allow: /representacao/
+Allow: /sobre/
+Allow: /home/
+Allow: /produtos/logo-th-loading.png
+Allow: /logo-th.png
+
 # Sitemap
 Sitemap: https://thdistribuicao.com/sitemap.xml
+
+# Crawl-delay para evitar sobrecarga do servidor
+Crawl-delay: 1
 
 # Disallow admin or private areas (if any)
 # Disallow: /admin/

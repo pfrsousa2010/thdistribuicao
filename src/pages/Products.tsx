@@ -299,12 +299,12 @@ const Products: React.FC = () => {
         <div className="container">
           <div className="filters-section">
             <div className="search-filter">
-              <label htmlFor="search">Buscar produto</label>
+              <label htmlFor="search">Buscar peças automotivas e ferramentas industriais</label>
               <div className="search-input-wrapper">
                 <input
                   id="search"
                   type="text"
-                  placeholder="Digite o nome do produto"
+                  placeholder="Digite o nome do produto ou marca"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
