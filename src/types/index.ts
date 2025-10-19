@@ -9,6 +9,10 @@ export interface Product {
   stock_quantity?: number;
   is_active: boolean;
   specifications?: Record<string, any>;
+  slug?: string; // Campo para URL amigável
+  image_url?: string; // URL da imagem do produto
+  seo_description?: string; // Descrição específica para SEO
+  seo_keywords?: string; // Keywords específicas para SEO
   created_at: string;
   updated_at: string;
   category?: Category;

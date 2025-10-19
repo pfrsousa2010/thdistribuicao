@@ -6,7 +6,7 @@
 /* Hero Section - Carrossel de Banners */
 .products-hero-carousel {
   position: relative;
-  height: 400px;
+  height: 40vh;
   overflow: hidden;
   z-index: 0;
   margin-top: 0;
@@ -319,7 +319,7 @@
   text-align: center;
   gap: 20px;
   width: 100%;
-  min-height: 280px;
+  min-height: 380px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -327,6 +327,78 @@
 .product-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.products-card-image-section {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid #e9ecef;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.products-card-image-section:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: #007bff;
+}
+
+.products-card-image-section:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.products-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.products-card-image-section:hover .products-card-image {
+  transform: scale(1.05);
+}
+
+.products-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}
+
+.products-card-placeholder-image {
+  width: 60px;
+  height: 60px;
+  opacity: 0.5;
+}
+
+/* Marca d'água para cards de produtos */
+.products-card-watermark-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.products-card-watermark-image {
+  width: 40px;
+  height: 40px;
+  opacity: 0.55;
+  filter: grayscale(50%) brightness(0.8);
+  transition: opacity 0.3s ease;
 }
 
 .product-content {
@@ -412,8 +484,8 @@
   margin: 0;
 }
 
-.product-whatsapp-btn {
-  background: #25d366;
+.product-view-btn {
+  background: #007bff;
   color: #ffffff;
   border: none;
   padding: 12px 24px;
@@ -427,22 +499,22 @@
   justify-content: center;
   gap: 8px;
   white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
   flex-shrink: 0;
   width: 100%;
   margin-top: auto;
 }
 
-.product-whatsapp-btn:hover {
-  background: #20ba5a;
+.product-view-btn:hover {
+  background: #0056b3;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
 }
 
-.product-whatsapp-btn .whatsapp-icon {
+.product-view-btn .view-icon {
   width: 18px;
   height: 18px;
-  fill: currentColor;
+  fill: rgba(0, 123, 255, 0.4);
 }
 
 .no-products-container {
@@ -645,7 +717,7 @@
 /* Tablet */
 @media (max-width: 1024px) and (min-width: 769px) {
   .products-hero-carousel {
-    height: 350px;
+    height: 35vh;
   }
 
   .products-list {
@@ -657,8 +729,7 @@
 @media (max-width: 768px) {
   /* Carrossel responsivo */
   .products-hero-carousel {
-    height: auto;
-    min-height: 280px;
+    height: 20vh;
   }
 
   .banner-image {
@@ -691,7 +762,17 @@
     text-align: center;
     gap: 20px;
     padding: 20px;
-    min-height: 250px;
+    min-height: 350px;
+  }
+
+  .products-card-image-section {
+    height: 140px;
+    margin-bottom: 15px;
+  }
+  
+  .products-card-watermark-image {
+    width: 35px;
+    height: 35px;
   }
 
   .product-content {
