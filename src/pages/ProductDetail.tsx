@@ -169,9 +169,7 @@ const ProductDetail: React.FC = () => {
         "url": `https://thdistribuicao.com/produtos/${slug}`,
         "offers": {
           "@type": "Offer",
-          "price": product.price,
           "priceCurrency": "BRL",
-          "availability": product.stock_quantity && product.stock_quantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
           "seller": {
             "@type": "Organization",
             "name": "TH Distribuição & Representação",
