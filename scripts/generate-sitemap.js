@@ -144,9 +144,7 @@ const generateSitemap = async () => {
   }
 };
 
-// Executar se chamado diretamente
-if (import.meta.url === `file://${process.argv[1]}`) {
-  generateSitemap();
-}
+// Executar sempre quando o script for chamado
+generateSitemap();
 
 export default generateSitemap;
